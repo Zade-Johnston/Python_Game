@@ -19,62 +19,67 @@ def random_numbers(n):
 
 def number_range(difficulty_choice):
     """This function determines the range of the question"""
+    global score_counter
     if difficulty_choice == "easy":
         number_range = 10
-        score_add
+        score_counter = 1
     elif difficulty_choice == "medium":
         number_range = 50
+        score_counter = 3
     elif difficulty_choice == "hard":
         number_range = 100
+        score_counter = 5
     elif difficulty_choice == "expert":
         number_range = 1000
+        score_counter = 10
     num1, num2 = random_numbers(number_range)
     return num1, num2
 
-def check_and_tell(guess, answer, score): #definition of the function, takes score as an argument
+def check_and_tell(guess, answer, score, score_counter): #definition of the function, takes score as an argument
     if guess == answer:
-        score += 10
+        score += score_counter
         return score
-        print("Correct! Your score is now {} points".format(score))
     else:
-        if score - 5 >= 0:
-            score -= 5
+        if score - score_counter >= 0:
+            score -= score_counter
             return score
-        elif score - 5 < 0:
+        elif score - score_counter < 0:
             score = 0
             return score
-        print("Sorry, the answer is {}. Your score is now {} points".format(answer, score))
+
 
 def add(level):
     num1, num2 = number_range(level)
     answer = num1 + num2
-    guess = int(input("What is {} + {}?".format(num1, num2)))
-    interim_score = check_and_tell(guess, answer, game_score)
+    guess = int(input("What does {} + {} =".format(num1, num2)))
+    interim_score = check_and_tell(guess, answer, game_score, score_counter)
     return interim_score
 
 def subtract(level):
     num1, num2 = number_range(level)
     answer = num1 - num2
-    guess = int(input("What is {} - {}?".format(num1, num2)))
+    guess = int(input("What does {} - {} =".format(num1, num2)))
     interim_score = check_and_tell(guess, answer, game_score)
     return interim_score
 
 def multiply(level):
     num1, num2 = number_range(level)
     answer = num1 * num2
-    guess = int(input("What is {} * {}?".format(num1, num2)))
+    guess = int(input("What does {} * {} =".format(num1, num2)))
     interim_score = check_and_tell(guess, answer, game_score)
     return interim_score
 
 def divide(level):
     num1, num2 = number_range(level)
     answer = num1 / num2
-    guess = int(input("What is {} / {}?".format(num1, num2)))
+    guess = int(input("What does {} / {} =".format(num1, num2)))
     interim_score = check_and_tell(guess, answer, game_score)
     return interim_score
 
 #### GAME #####
 play_again_check = True
+correct_check = None
+score_counter = 0
 game_score = 0
 
 name = input("What is your name?")
@@ -100,7 +105,7 @@ while play_again_check == True:
     elif game_choice == 4:
         game_score = divide(level)
 
-    print(game_score)
+    print("Your score is now {}.".format(game_score))
 
     ask = input("Do you want to play again?").strip().lower()
     if ask[0] == "n":
